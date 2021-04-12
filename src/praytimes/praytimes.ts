@@ -75,17 +75,16 @@ function asrTime(factor: number, time: number, jDate: number, [lat]: [number, nu
  * Ref: http://web.archive.org/web/20190925205122/http://aa.usno.navy.mil/faq/docs/SunApprox.php
  */
 function sunPosition(julianDay: number) {
-  var D = julianDay - 2451545.0;
-  var g = DegreeMath.fixAngle(357.529 + 0.98560028 * D);
-  var q = DegreeMath.fixAngle(280.459 + 0.98564736 * D);
-  var L = DegreeMath.fixAngle(q + 1.915 * DegreeMath.sin(g) + 0.020 * DegreeMath.sin(2 * g));
+  let D = julianDay - 2451545.0;
+  let g = DegreeMath.fixAngle(357.529 + 0.98560028 * D);
+  let q = DegreeMath.fixAngle(280.459 + 0.98564736 * D);
+  let L = DegreeMath.fixAngle(q + 1.915 * DegreeMath.sin(g) + 0.020 * DegreeMath.sin(2 * g));
 
-  var R = 1.00014 - 0.01671 * DegreeMath.cos(g) - 0.00014 * DegreeMath.cos(2 * g);
-  var e = 23.439 - 0.00000036 * D;
+  let e = 23.439 - 0.00000036 * D;
 
-  var RA = DegreeMath.arctan2(DegreeMath.cos(e) * DegreeMath.sin(L), DegreeMath.cos(L)) / 15;
-  var eqt = q / 15 - DegreeMath.fixHour(RA);
-  var decl = DegreeMath.arcsin(DegreeMath.sin(e) * DegreeMath.sin(L));
+  let RA = DegreeMath.arctan2(DegreeMath.cos(e) * DegreeMath.sin(L), DegreeMath.cos(L)) / 15;
+  let eqt = q / 15 - DegreeMath.fixHour(RA);
+  let decl = DegreeMath.arcsin(DegreeMath.sin(e) * DegreeMath.sin(L));
 
   return { declination: decl, equation: eqt };
 }

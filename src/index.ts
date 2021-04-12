@@ -1,15 +1,15 @@
-import { take } from 'rxjs/operators';
-import { watchPermissions, renderInElement } from './alpinex';
-import { renderNoLocationPermission, renderTodayCard } from './templates';
-import { getNearestRamzanMonth } from './calendar';
-import { getTimes } from './praytimes';
+import {take} from 'rxjs/operators';
+import {renderInElement, watchPermissions} from './alpinex';
+import {renderNoLocationPermission, renderTodayCard} from './templates';
+import {getNearestRamzanMonth} from './calendar';
+import {getTimes} from './praytimes';
 
 const mainEl = document.querySelector<HTMLElement>('#main');
 const geolocationPerms$ = watchPermissions('geolocation');
 
 geolocationPerms$
   .pipe(take(1))
-  .subscribe(({ state }) => {
+  .subscribe(({state}) => {
     console.log(getNearestRamzanMonth());
     if (state !== 'granted' && state !== 'unsupported') {
       renderInElement(
@@ -21,11 +21,15 @@ geolocationPerms$
 
     navigator.geolocation.getCurrentPosition(
       (data) => {
-        let times = getTimes(new Date(), [data.coords.latitude, data.coords.longitude, data.coords.altitude], {
-          method: 'Karachi',
-          imsakMin: 2,
-          maghribMin: 4,
-        })
+        let times = getTimes(
+          new Date(),
+          [data.coords.latitude, data.coords.longitude, data.coords.altitude],
+          {
+            method: 'Karachi',
+            imsakMin: 2,
+            maghribMin: 4,
+          },
+        )
 
         renderInElement(
           renderTodayCard({
@@ -50,25 +54,25 @@ geolocationPerms$
 //     start.setDate(start.getDate() + 1);
 //     let times = getTimes(start, [29.367, 71.702], {
 //         method: 'Karachi',
-        // imsakMin: 2,
-        // maghribMin: 4,
-    // })
+// imsakMin: 2,
+// maghribMin: 4,
+// })
 
-    // let [sHour, sMin] = times.imsak.toString().split(':');
-    // calendar.createEvent({
-    //     start: new Date(2021, start.getMonth(), start.getDate(), +sHour, +sMin),
-    //     end: new Date(2021, start.getMonth(), start.getDate(), +sHour, +sMin + 1),
-    //     summary: 'Sehar',
-    // });
+// let [sHour, sMin] = times.imsak.toString().split(':');
+// calendar.createEvent({
+//     start: new Date(2021, start.getMonth(), start.getDate(), +sHour, +sMin),
+//     end: new Date(2021, start.getMonth(), start.getDate(), +sHour, +sMin + 1),
+//     summary: 'Sehar',
+// });
 
-    // let [aHour, aMin] = times.maghrib.toString().split(':');
-    // calendar.createEvent({
-    //     start: new Date(2021, start.getMonth(), start.getDate(), +aHour, +aMin),
-    //     end: new Date(2021, start.getMonth(), start.getDate(), +aHour, +aMin + 1),
-    //     summary: 'Iftar',
-    // });
+// let [aHour, aMin] = times.maghrib.toString().split(':');
+// calendar.createEvent({
+//     start: new Date(2021, start.getMonth(), start.getDate(), +aHour, +aMin),
+//     end: new Date(2021, start.getMonth(), start.getDate(), +aHour, +aMin + 1),
+//     summary: 'Iftar',
+// });
 
-    // console.log(`(${x+1}) ${new Intl.DateTimeFormat('en-US').format(start)}:  ${times.imsak} -- ${times.maghrib}`);
+// console.log(`(${x+1}) ${new Intl.DateTimeFormat('en-US').format(start)}:  ${times.imsak} -- ${times.maghrib}`);
 // }
 
 // console.log(calendar.toString())
