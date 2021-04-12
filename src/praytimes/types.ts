@@ -22,7 +22,7 @@ export interface Settings {
 
   /**
    * asr juristic method default to Standard
-   * 
+   *
    * Standard: Shafii, Maliki, Jafari and Hanbali (shadow factor = 1)
    * Hanafi:   Hanafi school of tought (shadow factor = 2)
    */
@@ -42,7 +42,7 @@ export interface Settings {
 
   /**
    * midnight method default to Standard
-   * 
+   *
    * Standard: The mean time from Sunset to Sunrise
    * Jafari:   The mean time from Maghrib to Fajr
    */
@@ -51,7 +51,7 @@ export interface Settings {
 
   /**
    * higher latitudes adjustment default to NightMiddle
-   * 
+   *
    * None:        No adjustments
    * NightMiddle: The middle of the night method
    * OneSeventh:  The 1/7th of the night method
@@ -63,5 +63,5 @@ export interface Settings {
   method: keyof typeof CalculationMethods;
   dayLightSaving?: true | false;
   timezone?: number;
-  numberIteration?: number; 
+  numberIteration?: number;
 }

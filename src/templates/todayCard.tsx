@@ -6,10 +6,10 @@ export function renderTodayCard({ seharTime, iftarTime, date }: { seharTime: str
       <div class="bg-white overflow-hidden sm:rounded-lg sm:shadow max-w-screen-sm w-full">
         <div class="bg-white px-4 py-3 border-b border-gray-200 sm:px-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
-          {date}
-          </h3>
-          <p class="mt-1 text-sm text-gray-500">
             Today Times
+          </h3>
+          <p class="text-sm text-gray-500">
+            {date}
           </p>
         </div>
         <div class="px-4 py-5 sm:px-6 flex items-center justify-between space-x-8">
@@ -19,7 +19,7 @@ export function renderTodayCard({ seharTime, iftarTime, date }: { seharTime: str
               <p class="text-4xl font-medium text-gray-700">
                 {seharTime}
               </p>
-              <p class="ml-1 text-sm font-semibold">
+              <p class="ml-1 text-sm font-semibold text-gray-600">
                 AM
               </p>
             </div>
@@ -30,7 +30,7 @@ export function renderTodayCard({ seharTime, iftarTime, date }: { seharTime: str
               <p class="text-4xl font-medium text-gray-700">
                 {iftarTime}
               </p>
-              <p class="ml-1 text-sm font-semibold">
+              <p class="ml-1 text-sm font-semibold text-gray-600">
                 PM
               </p>
             </div>

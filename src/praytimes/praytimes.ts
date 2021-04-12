@@ -1,6 +1,6 @@
-import { calculationMethods, defaultSettings } from './consts';
-import { DegreeMath } from './maths'
-import { Settings, TimesData, TimeNames } from './types';
+import {calculationMethods, defaultSettings} from './consts';
+import {DegreeMath} from './maths'
+import {Settings, TimeNames, TimesData} from './types';
 
 
 /** return prayer times for given settings */
@@ -19,7 +19,7 @@ export function getTimes(date: Date, coordinates: [number, number, number?], set
     coordinates.push(0);
   }
 
-  let { timezone, dayLightSaving } = settings;
+  let {timezone, dayLightSaving} = settings;
   if (typeof (timezone) === 'undefined')
     timezone = getTimeZone(date);
   if (typeof (dayLightSaving) === 'undefined')
@@ -40,29 +40,28 @@ export function getTimes(date: Date, coordinates: [number, number, number?], set
  * compute mid-day time
  */
 function midDay(time: number, jDate: number) {
-  var eqt = sunPosition(jDate + time).equation;
-  var noon = DegreeMath.fixHour(12 - eqt);
-  return noon;
+  const eqt = sunPosition(jDate + time).equation;
+  return DegreeMath.fixHour(12 - eqt);
 }
 
-/** 
+/**
  * compute the time at which sun reaches a specific angle below horizon
  */
 function sunAngleTime(angle: number, time: number, jDate: number, [lat]: [number, number, number?], direction: 'ccw' | 'cw' = 'cw') {
-  var decl = sunPosition(jDate + time).declination;
-  var noon = midDay(time, jDate);
-  var t = 1 / 15 * DegreeMath.arccos((-DegreeMath.sin(angle) - DegreeMath.sin(decl) * DegreeMath.sin(lat)) /
+  const decl = sunPosition(jDate + time).declination;
+  const noon = midDay(time, jDate);
+  const t = 1 / 15 * DegreeMath.arccos((-DegreeMath.sin(angle) - DegreeMath.sin(decl) * DegreeMath.sin(lat)) /
     (DegreeMath.cos(decl) * DegreeMath.cos(lat)));
   return noon + (direction == 'ccw' ? -t : t);
 }
 
 
-/** 
-* compute asr time
-*/
+/**
+ * compute asr time
+ */
 function asrTime(factor: number, time: number, jDate: number, [lat]: [number, number, number?]) {
-  var decl = sunPosition(jDate + time).declination;
-  var angle = -DegreeMath.arccot(factor + DegreeMath.tan(Math.abs(lat - decl)));
+  const decl = sunPosition(jDate + time).declination;
+  const angle = -DegreeMath.arccot(factor + DegreeMath.tan(Math.abs(lat - decl)));
   return sunAngleTime(angle, time, jDate, [lat, 0]);
 }
 
@@ -71,7 +70,7 @@ function asrTime(factor: number, time: number, jDate: number, [lat]: [number, nu
  * of about 1 arcminute within two centuries of 2000.
  * The algorithm's accuracy degrades gradually beyond
  * its four-century window of applicability.
- *  
+ *
  * Ref: http://web.archive.org/web/20190925205122/http://aa.usno.navy.mil/faq/docs/SunApprox.php
  */
 function sunPosition(julianDay: number) {
@@ -86,7 +85,7 @@ function sunPosition(julianDay: number) {
   let eqt = q / 15 - DegreeMath.fixHour(RA);
   let decl = DegreeMath.arcsin(DegreeMath.sin(e) * DegreeMath.sin(L));
 
-  return { declination: decl, equation: eqt };
+  return {declination: decl, equation: eqt};
 }
 
 /**
@@ -99,12 +98,11 @@ function julian(date: Date) {
   if (month <= 2) {
     year -= 1;
     month += 12;
-  };
-  var A = Math.floor(year / 100);
-  var B = 2 - A + Math.floor(A / 4);
+  }
+  const A = Math.floor(year / 100);
+  const B = 2 - A + Math.floor(A / 4);
 
-  var JD = Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
-  return JD;
+  return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
 }
 
 
@@ -141,13 +139,13 @@ function computeTimes(
   coordinates: [number, number, number?]
 ): Partial<Record<keyof typeof TimeNames, number | string>> {
   // default times
-  var times: Partial<TimesData> = {
+  let times: Partial<TimesData> = {
     imsak: 5, fajr: 5, sunrise: 6, dhuhr: 12,
     asr: 13, sunset: 18, maghrib: 18, isha: 18
   };
 
   // main iterations
-  for (var i = 1; i <= settings.numberIteration; i++)
+  for (let i = 1; i <= settings.numberIteration; i++)
     times = computePrayerTimes(times, jDate, coordinates, settings);
 
   times = adjustTimes(times, timeZone, coordinates, settings);
@@ -243,9 +241,9 @@ function dayPortion(times: Partial<TimesData>) {
  * Calculates the timezone offset from UTC
  */
 function getTimeZone(date: Date): number {
-  var year = date.getFullYear();
-  var t1 = utcOffset(new Date(year, 0, 1));
-  var t2 = utcOffset(new Date(year, 6, 1));
+  const year = date.getFullYear();
+  const t1 = utcOffset(new Date(year, 0, 1));
+  const t2 = utcOffset(new Date(year, 6, 1));
   return Math.min(t1, t2);
 }
 
@@ -253,10 +251,10 @@ function getTimeZone(date: Date): number {
  * Finds the UTC offset of the date
  */
 function utcOffset(date: Date): number {
-  const GMTString = date.toUTCString();
+  const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0, 0);
+  const GMTString = localDate.toUTCString();
   const GMTDate = new Date(GMTString.substring(0, GMTString.lastIndexOf(' ') - 1));
-  const hoursDiff = (+date - +GMTDate) / (1000 * 60 * 60);
-  return hoursDiff;
+  return (+localDate - +GMTDate) / (1000 * 60 * 60);
 }
 
 /**
@@ -288,9 +286,9 @@ function getFormattedTime(time: number, format: '12h' | '12hNS' | '24h' | 'Float
   if (format == 'Float') return time;
 
   time = DegreeMath.fixHour(time + 0.5 / 60);  // add 0.5 minutes to round
-  var hours = Math.floor(time);
-  var minutes = Math.floor((time - hours) * 60);
-  var suffix = (format == '12h') ? suffixes[hours < 12 ? 0 : 1] : '';
-  var hour = (format == '24h') ? twoDigitsFormat(hours) : ((hours + 12 - 1) % 12 + 1);
+  const hours = Math.floor(time);
+  const minutes = Math.floor((time - hours) * 60);
+  const suffix = (format == '12h') ? suffixes[hours < 12 ? 0 : 1] : '';
+  const hour = (format == '24h') ? twoDigitsFormat(hours) : ((hours + 12 - 1) % 12 + 1);
   return hour + ':' + twoDigitsFormat(minutes) + (suffix ? ' ' + suffix : '');
 }

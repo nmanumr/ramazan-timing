@@ -1,4 +1,4 @@
-const ummalquraData = [
+const ummalQuraData = [
   28607, 28636, 28665, 28695, 28724, 28754, 28783, 28813, 28843, 28872, 28901, 28931, 28960, 28990, 29019, 29049, 29078, 29108, 29137, 29167,
   29196, 29226, 29255, 29285, 29315, 29345, 29375, 29404, 29434, 29463, 29492, 29522, 29551, 29580, 29610, 29640, 29669, 29699, 29729, 29759,
   29788, 29818, 29847, 29876, 29906, 29935, 29964, 29994, 30023, 30053, 30082, 30112, 30141, 30171, 30200, 30230, 30259, 30289, 30318, 30348,
@@ -88,6 +88,13 @@ const ummalquraData = [
   79399, 79428, 79458, 79487, 79517, 79546, 79576, 79606, 79635, 79665, 79695, 79724, 79753, 79783, 79812, 79841, 79871, 79900, 79930, 79960,
   79990
 ]
+const monthNames = [
+  'Muharram', 'Safar', 'Rabi\' al-awwal', 'Rabi\' al-thani', 'Jumada al-awwal','Jumada al-thani',
+  'Rajab', 'Sha\'aban', 'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'
+]
+const monthShortNames = [
+  'Muh', 'Saf', 'Rab1', 'Rab2', 'Jum1', 'Jum2', 'Raj', 'Sha\'', 'Ram', 'Shaw', 'DhuQ', 'DhuH'
+];
 
 export function toHijiri(date: Date): [number, number, number] {
   let [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
@@ -127,8 +134,8 @@ export function toHijiri(date: Date): [number, number, number] {
 
   // the MCJDN's of the start of the lunations in the Umm al-Qura calendar are stored in 'islamcalendar_dat.js'
   let i = 0;
-  for (; i < ummalquraData.length; i++) {
-    if (ummalquraData[i] > mcjdn)
+  for (; i < ummalQuraData.length; i++) {
+    if (ummalQuraData[i] > mcjdn)
       break;
   }
 
@@ -137,20 +144,20 @@ export function toHijiri(date: Date): [number, number, number] {
   let ii = Math.floor((iln - 1) / 12);
   let iy = ii + 1;
   let im = iln - 12 * ii;
-  let id = mcjdn - ummalquraData[i - 1] + 1;
+  let id = mcjdn - ummalQuraData[i - 1] + 1;
   return [iy, im, id];
 }
 
 export function toJulianDays([year, month, date]: [number, number, number]): number {
   let i = ((year - 1) * 12) + 1 + (month - 1) - 16260;
-  let mcjdn = date + ummalquraData[i - 1] - 1;
+  let mcjdn = date + ummalQuraData[i - 1] - 1;
   let cjdn = mcjdn + 2400000;
   return cjdn;
 }
 
 export function toGregorian([year, month, date]: [number, number, number]) {
   let i = ((year - 1) * 12) + 1 + (month - 1) - 16260;
-  let mcjdn = date + ummalquraData[i - 1] - 1;
+  let mcjdn = date + ummalQuraData[i - 1] - 1;
   let cjdn = mcjdn + 2400000;
 
   let z = Math.floor(cjdn + 0.5);
@@ -169,7 +176,11 @@ export function toGregorian([year, month, date]: [number, number, number]) {
   return new Date(year + "/" + (month + 1) + "/" + day);
 }
 
-export function getNearestRamzanMonth() {
+export function formatHijiriDate([year, month, date]: [number, number, number]) {
+  return `${date} ${monthNames[month - 1]} ${year}`;
+}
+
+export function getNearestRamazanMonth() {
   const today = new Date();
   const hijri = toHijiri(today);
 
