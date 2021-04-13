@@ -185,12 +185,18 @@ export function getNearestRamazanMonth() {
   const hijri = toHijiri(today);
 
   let daysOffset = 0;
+  let type: 'current' | 'previous' | 'upcoming' = 'current';
   let monthDays = toJulianDays([hijri[0], 10, 1]) - toJulianDays([hijri[0], 9, 1]);
   
   if (hijri[1] === 9) {
     daysOffset = -1 * hijri[2];
   } else {
     daysOffset = toJulianDays([hijri[0], 9, 1]) - toJulianDays(hijri);
+    if (daysOffset > 0) {
+      type = 'previous';
+    } else {
+      type = 'upcoming';
+    }
   }
 
   const startOfRamazan = new Date();
@@ -198,5 +204,5 @@ export function getNearestRamazanMonth() {
   startOfRamazan.setDate(startOfRamazan.getDate() + daysOffset + 1);
   endOfRamazan.setDate(endOfRamazan.getDate() + daysOffset + monthDays + 1);
 
-  return {startOfRamazan, endOfRamazan}
+  return {startOfRamazan, endOfRamazan, monthDays, type}
 }
