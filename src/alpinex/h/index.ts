@@ -65,7 +65,9 @@ export function h(
   if (attributes) {
     for (const attr of Object.keys(attributes)) {
       if (attr.startsWith('x-on') || attr.startsWith('@')) {
-        let parsedAttr = parseHtmlAttribute(attributes[attr]);
+        let parsedAttr = parseHtmlAttribute({
+          name: attr, value: attributes[attr]
+        });
         mountXOn(el as HTMLElement, parsedAttr);
       } else if (attr === 'x-show') {
         mountXShow(el, attributes[attr]);

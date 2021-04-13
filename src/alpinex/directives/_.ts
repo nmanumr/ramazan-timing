@@ -3,7 +3,7 @@ import { Directive } from "./types";
 /**
  * parse attribute value
  */
-export function parseHtmlAttribute({ name, value }: Attr): Directive {
+export function parseHtmlAttribute({ name, value }: {name: string, value: any}): Directive {
 
   const normalizedType = name
     .replace('x-', '')
