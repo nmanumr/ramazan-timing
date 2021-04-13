@@ -1,5 +1,20 @@
-import {AppData} from "./types";
+import {AppData, SingleDayData} from "./types";
 import {h} from '../alpinex';
+import {ICal} from '../ical'
+
+function exportICal() {
+  const calendar = new ICal('Ramazan Calendar');
+  for (let event of this.data as SingleDayData[]) {
+    const [y, m, d] = [event.date.getFullYear(), event.date.getMonth(), event.date.getDate()];
+    const [sh, sm] = event.seharTime.split(':');
+    const [ih, im] = event.iftarTime.split(':');
+
+    calendar.addEvent(new Date(y, m, d, +sh, +sm, 0), 'Sehar');
+    calendar.addEvent(new Date(y, m, d, +ih + 12, +im, 0), 'Iftar');
+  }
+
+  calendar.download();
+}
 
 export function renderNearestRamazan({data}: AppData['fullMonth']) {
   return (
@@ -9,7 +24,8 @@ export function renderNearestRamazan({data}: AppData['fullMonth']) {
           Ramazan {data[0].hijriDate.split(' ').slice(-1)}
         </h3>
         <div class="flex-shrink-0">
-          <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:border-gray-700 focus:ring-2 focus:ring-gray-300">
+          <button x-on:click={exportICal.bind({data})} type="button"
+                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:border-gray-700 focus:ring-2 focus:ring-gray-300">
             Export ICS
           </button>
         </div>
