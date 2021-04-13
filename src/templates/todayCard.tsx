@@ -4,7 +4,7 @@ import {SingleDayData} from "./types";
 export function renderTodayCard({ seharTime, iftarTime, hijriDate }: SingleDayData) {
   return (
     <div class="bg-white overflow-hidden sm:rounded-lg sm:shadow w-full">
-      <div class="bg-white px-4 py-3 border-b border-gray-200 sm:px-6">
+      <div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6">
         <h3 class="text-lg leading-6 font-medium text-gray-900">
           Today Times
         </h3>

@@ -1,4 +1,3 @@
-import {take} from 'rxjs/operators';
 import {renderInElement, watchPermissions} from './alpinex';
 import {renderApp, renderNoLocationPermission} from './templates';
 import {formatHijiriDate, getNearestRamazanMonth, toHijiri} from './calendar';
@@ -42,7 +41,6 @@ function computeData(location: [number, number, number?], settings: Partial<Sett
 }
 
 geolocationPerms$
-  .pipe(take(1))
   .subscribe(({state}) => {
     console.log(getNearestRamazanMonth());
 
