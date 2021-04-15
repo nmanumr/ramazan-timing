@@ -16,7 +16,7 @@ export function renderNoLocationPermission(error?: string) {
           </svg>
         </div>
         <div class="mt-4 text-center space-y-2 text-gray-800">
-          <h3 class="text-2xl leading-6 font-medium">Need you Location</h3>
+          <h3 class="text-2xl leading-6 font-medium">Need your Location</h3>
           <p class="text-sm text-gray-700">
             Your location is required for accurate prayer time calculations.
           </p>
