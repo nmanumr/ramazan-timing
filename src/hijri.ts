@@ -1,3 +1,7 @@
+/**
+ * Adopted from [Hiriji.js](https://github.com/xsoh/Hijri.js)
+ */
+
 const ummalQuraData = [
   28607, 28636, 28665, 28695, 28724, 28754, 28783, 28813, 28843, 28872, 28901, 28931, 28960, 28990, 29019, 29049, 29078, 29108, 29137, 29167,
   29196, 29226, 29255, 29285, 29315, 29345, 29375, 29404, 29434, 29463, 29492, 29522, 29551, 29580, 29610, 29640, 29669, 29699, 29729, 29759,
@@ -92,9 +96,6 @@ const monthNames = [
   'Muharram', 'Safar', 'Rabi\' al-awwal', 'Rabi\' al-thani', 'Jumada al-awwal','Jumada al-thani',
   'Rajab', 'Sha\'aban', 'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'
 ]
-const monthShortNames = [
-  'Muh', 'Saf', 'Rab1', 'Rab2', 'Jum1', 'Jum2', 'Raj', 'Sha\'', 'Ram', 'Shaw', 'DhuQ', 'DhuH'
-];
 
 export function toHijiri(date: Date): [number, number, number] {
   let [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
@@ -153,27 +154,6 @@ export function toJulianDays([year, month, date]: [number, number, number]): num
   let mcjdn = date + ummalQuraData[i - 1] - 1;
   let cjdn = mcjdn + 2400000;
   return cjdn;
-}
-
-export function toGregorian([year, month, date]: [number, number, number]) {
-  let i = ((year - 1) * 12) + 1 + (month - 1) - 16260;
-  let mcjdn = date + ummalQuraData[i - 1] - 1;
-  let cjdn = mcjdn + 2400000;
-
-  let z = Math.floor(cjdn + 0.5);
-  let a = Math.floor((z - 1867216.25) / 36524.25);
-  a = z + 1 + a - Math.floor(a / 4);
-  let b = a + 1524;
-  let c = Math.floor((b - 122.1) / 365.25);
-  let d = Math.floor(365.25 * c);
-  let e = Math.floor((b - d) / 30.6001);
-  let day = b - d - Math.floor(e * 30.6001);
-  month = e - (e > 13.5 ? 13 : 1);
-  year = c - (month > 2.5 ? 4716 : 4715);
-  if (year <= 0) {
-    year--;
-  }
-  return new Date(year + "/" + (month + 1) + "/" + day);
 }
 
 export function formatHijiriDate([year, month, date]: [number, number, number]) {

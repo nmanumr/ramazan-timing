@@ -1,7 +1,7 @@
 import { JSX as JSXInternal } from "preact"
 import svgTags from "./svgTags";
 
-import { mountXOn, mountXShow, parseHtmlAttribute, XAttributes } from "../directives";
+import { mountXOn, parseHtmlAttribute, XAttributes } from "../directives";
 
 type Child =
   | HTMLElement
@@ -69,10 +69,14 @@ export function h(
           name: attr, value: attributes[attr]
         });
         mountXOn(el as HTMLElement, parsedAttr);
-      } else if (attr === 'x-show') {
-        mountXShow(el, attributes[attr]);
         continue;
       }
+
+      // disabled x-show and transition directives as they are not needed i this project
+      // else if (attr === 'x-show') {
+      //   mountXShow(el, attributes[attr]);
+      //   continue;
+      // }
 
       if (typeof attributes[attr] !== "boolean") {
         el.setAttribute(attr, attributes[attr]);

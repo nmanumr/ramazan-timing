@@ -11,6 +11,7 @@
   "author": "nmanumr",
   "license": "ISC",
   "dependencies": {
+    "@tailwindcss/forms": "^0.3.2",
     "ical-generator": "^1.15.4",
     "preact": "^10.5.13",
     "rollup": "^2.45.1",

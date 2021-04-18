@@ -23,7 +23,7 @@ interface Stage {
   cleanup: () => void;
 }
 
-export enum TransitionType {IN, OUT}
+export const enum TransitionType {IN, OUT}
 
 interface XTransition {
   type: TransitionType;

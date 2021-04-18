@@ -59,6 +59,8 @@ export interface Settings {
    */
   highLats: 'None' | 'NightMiddle' | 'OneSeventh' | 'AngleBased',
 
+  offsets: Partial<Record<keyof typeof TimeNames, number>>;
+
   format: '12h' | '12hNS' | '24h' | 'Float';
   method: keyof typeof CalculationMethods;
   dayLightSaving?: true | false;

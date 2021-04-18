@@ -7,3 +7,47 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   }
 }
+
+.settings-panel__overlay {
+  @apply absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity;
+}
+
+.settings-panel__main {
+  @apply w-screen max-w-md transform transition ease-in-out duration-300;
+}
+
+.settings-panel__main-wrapper {
+  @apply absolute inset-y-0 right-0 pl-10 max-w-full flex;
+}
+
+.settings-panel__close-btn {
+  @apply absolute top-0 left-0 -ml-8 pt-4 pr-2 flex sm:-ml-10 sm:pr-4;
+}
+
+.settings-panel.closed .settings-panel__overlay {
+  @apply opacity-0;
+}
+
+.settings-panel.opened .settings-panel__overlay {
+  @apply opacity-100;
+}
+
+.settings-panel.opened .settings-panel__main {
+  @apply translate-x-0;
+}
+
+.settings-panel.closed .settings-panel__main {
+  @apply translate-x-full;
+}
+
+.settings-panel.opened .settings-panel__close-btn {
+  @apply opacity-100;
+}
+
+.settings-panel.closed .settings-panel__close-btn {
+  @apply opacity-0;
+}
+
+.settings-panel.closed {
+  pointer-events: none;
+}

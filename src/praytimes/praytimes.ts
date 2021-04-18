@@ -19,6 +19,11 @@ export function getTimes(date: Date, coordinates: [number, number, number?], set
     coordinates.push(0);
   }
 
+  for (let name of Object.keys(TimeNames) as (keyof typeof TimeNames)[]) {
+    if (!settings.offsets[name])
+      settings.offsets[name] = 0;
+  }
+
   let {timezone, dayLightSaving} = settings;
   if (typeof (timezone) === 'undefined')
     timezone = getTimeZone(date);
@@ -155,10 +160,18 @@ function computeTimes(
     times.sunset + timeDiff(times.sunset, times.fajr) / 2 :
     times.sunset + timeDiff(times.sunset, times.sunrise) / 2;
 
+  tuneOffsets(times, settings);
   for (const i of Object.keys(times) as (keyof typeof TimeNames)[])
     (times[i] as any) = getFormattedTime(times[i], settings.format);
 
   return times;
+}
+
+function tuneOffsets(times: Partial<TimesData>, settings: Partial<Settings>) {
+  for (let [name, val] of Object.entries(settings.offsets)) {
+    if (isNaN(name as any))
+      (times as any)[name] += val / 60;
+  }
 }
 
 function adjustTimes(

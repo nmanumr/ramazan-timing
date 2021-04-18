@@ -20,7 +20,7 @@ export function renderNoLocationPermission(error?: string) {
           <p class="text-sm text-gray-700">
             Your location is required for accurate prayer time calculations.
           </p>
-          {error ? <p class="text-xs text-gray-500">Error: {error}</p> : <span />}
+          {error ? <p class="text-xs text-red-600">Error: {error}</p> : <span />}
         </div>
         <div class="text-center mt-5">
           <button x-on:click={askLocationPermission} type="button" class="bg-gray-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300">
